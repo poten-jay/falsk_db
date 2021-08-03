@@ -2,8 +2,9 @@
 # from re import L
 # import psycopg2
 from flask import Blueprint, request, render_template
-from flask_app.model.data_base import cur
+from flask_app.model.data_base import cur, cur1
 from flask_app import db
+from random import randint
 
 bp = Blueprint('user', __name__)
 
@@ -11,7 +12,7 @@ bp = Blueprint('user', __name__)
 @bp.route('/user', methods=['GET'])
 def brand_list():
 
-    #cur.execute('SELECT * FROM ck_brand;')
+    cur.execute('SELECT * FROM ck_brand;')
     result = cur.fetchall()
     # (0, 'BBQ치킨', 1659, '경기', 1995)
 
@@ -40,4 +41,26 @@ def add_user():
 #    brand_list = request.form.get('username')
 
 #   username = request.form.get('ck_brand')
+
+@bp.route('/compare', methods=['GET'])
+def random_ck():
+
+
+    cur1.execute('SELECT * FROM ck_menu;')
+    result1 = cur1.fetchall()
+
+    ran_ck = []
+    for k in range(0,len(result1)-1):
+        ran_ck.append([result1[k][2], result1[k][3]])
+
+    return ran_ck[randint(0,len(result1)-1)]
+
+
+# cur1.execute('SELECT * FROM ck_menu;')
+# result1 = cur1.fetchall()
+# ran_ck = []
+# for k in range(0,len(result1)-1):
+#     ran_ck.append([result1[k][2], result1[k][3]])
+
+# ran_ck[randint(0,len(result1)-1)]
 

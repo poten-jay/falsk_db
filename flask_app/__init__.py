@@ -1,12 +1,12 @@
 # __init__.py     (초기 시작)
 
 from flask import Flask
-from flask_app.models import db, migrate  # models 파일로 접근해서 db, mg 접근
+#from flask_app import db  # models 파일로 접근해서 db, mg 접근
 
-# from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate, migrate
 
-# db = SQLAlchemy()
+db = SQLAlchemy()
 # migrate = Migrate()
 
 def create_app():
@@ -16,7 +16,7 @@ def create_app():
     # def index():
     #     return 'Welcome to Index Page'
 
-    # @app.route('/create')
+    # @app.route('/create')                     # main_rount 로 보냄
     # def create():
     #     return 'Welcome to Create Page'
     
@@ -24,19 +24,22 @@ def create_app():
     # def update():
     #     return 'Welcome to Update Page'
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite+pysqlite:///test.db'
+ #   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite+pysqlite:///test.db'
 
     db.init_app(app)    
-    migrate.init_app(app, db) 
+ #   migrate.init_app(app, db) 
 
     from flask_app.routes import main_route
+    # from flask_app.routes import brand_route
+
     app.register_blueprint(main_route.bp)
+    # app.register_blueprint(brand_route.bp, url_prefix='/api')
 
     return app
 
 if __name__ == '__main__':
     app = create_app()
-    app.run
+    app.run(debug=True)
 
 # FLASK_APP=flask_app flask run
 
